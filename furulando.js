@@ -5,3 +5,4 @@ function responder(esCorrecto) {
     alert("Incorrecto. Intenta de nuevo.");
   }
 }
+
