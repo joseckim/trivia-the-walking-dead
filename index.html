@@ -1,131 +1,95 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>Trivia Simple</title>
-</head>
-<body>
+<!-- Design note: Archivo de supervivencia — experiencia oscura, editorial y táctica. -->
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#10110e" />
+    <meta name="description" content="Trivia interactiva inspirada en The Walking Dead." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Bebas+Neue&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Walking Dead Trivia</title>
+  </head>
+  <body>
+    <div class="grain" aria-hidden="true"></div>
+    <header class="topbar">
+      <button class="brand" type="button" data-action="home" aria-label="Volver a la portada">
+        <span><strong>Walking Dead</strong><small>Trivia</small></span>
+      </button>
+      <p class="signal"><i></i> Rick grimes<b></b>recuerdos del pasado</p>
+    </header>
 
-<h2>Como se llama el protagonista?</h2>
-<button onclick="responder(false)">Glenn</button>
-<button onclick="responder(true)">Rick</button>
-<button onclick="responder(false)">Carl</button>
-<button onclick="responder(false)">Daryl</button>
-<script src="furulando.js"></script>
+    <main>
+      <section id="intro" class="screen hero-screen" aria-labelledby="intro-title">
+        <!-- IMAGEN PRINCIPAL DEL INICIO: assets/img/covers/hero.jpg -->
+        <div class="hero-photo" aria-hidden="true"></div>
+        <div class="hero-overlay" aria-hidden="true"></div>
+        <div class="corner corner--tl" aria-hidden="true"></div><div class="corner corner--tr" aria-hidden="true"></div>
+        <div class="corner corner--bl" aria-hidden="true"></div><div class="corner corner--br" aria-hidden="true"></div>
+        <div class="hero-content">
+          <p class="eyebrow">◉ registro del pasado </p>
+          <h1 id="intro-title">The walking<br /><em>Dead</em></h1>
+          <p class="hero-copy">Veinte registros. Una carretera vacía. Elige una respuesta antes de que los caminantes te alcancen y demuestra que todavía recuerdas cómo sobrevivir.</p>
+          <div class="hero-actions">
+            <button class="button button--primary" type="button" data-action="start">Comenzar<span>→</span></button>
+            <p><b>20</b>preguntas</p>
+          </div>
+        </div>
+        <footer class="hero-footer"><span>Expediente de los Caminantes.</span><span>Archivos de la Prisión</span></footer>
+      </section>
 
-<h2>Como se llama el mejor amigo de Rick?</h2>
-<button onclick="responder(true)">Shane</button>
-<button onclick="responder(false)">Daryl</button>
-<button onclick="responder(false)">Glenn</button>
-<button onclick="responder(false)">Carol</button>
+      <section id="quiz" class="screen quiz-screen is-hidden" aria-live="polite" aria-labelledby="question-title">
+        <div class="progress-bar"><span>Bloque de preguntas</span><div><i id="progress-fill"></i></div><b id="progress-label">01 / 20</b></div>
+        <div class="quiz-layout">
+          <aside class="record"><span>Registro</span><b id="record-number">01</b><small>De 20</small></aside>
+          <div class="quiz-stage">
+            <div class="question-meta"><p class="eyebrow">◉ Identidad confirmada</p><p id="timer" class="timer">◷ <b>30</b></p></div>
+            <h2 id="question-title">Cargando registro...</h2>
+            <p class="instruction">Elige correctamente, si te equivocas los caminantes te alcanzarán.</p>
+            <div id="answers" class="answers"></div>
+            <div id="feedback" class="feedback is-hidden" role="status"></div>
+          </div>
+        </div>
+      </section>
 
-<h2>En que temporada muere Shane?</h2>
-<button onclick="responder(false)">Nunca muere</button>
-<button onclick="responder(false)">Temporada 1</button>
-<button onclick="responder(true)">Temporada 2</button>
-<button onclick="responder(false)">Temporada 5</button>
+      <section id="results" class="screen results-screen is-hidden" aria-labelledby="results-title">
+        <!-- IMAGEN DE RESULTADOS: assets/img/covers/results.jpg -->
+        <div class="results-photo" aria-hidden="true"></div>
+        <div class="results-overlay" aria-hidden="true"></div>
+        <div class="results-summary">
+          <p class="eyebrow">◉ Expediente cerrado</p>
+          <h2 id="results-title">Resultado<br /><em>registrado.</em></h2>
+          <p id="result-message" class="result-message"></p>
+          <p class="result-score"><b id="final-score">0</b><span> / 20</span></p>
+          <button class="button button--primary" type="button" data-action="start">Jugar de nuevo <span>↻</span></button>
+        </div>
+        <article class="report-card" aria-label="Tabla de puntos">
+          <header><strong>Tabla de puntos</strong><small>Resumen de ruta</small></header>
+          <dl>
+            <div><dt>Respuestas correctas</dt><dd id="correct-count" class="olive">0</dd></div>
+            <div><dt>Intentos incorrectos</dt><dd id="wrong-count" class="rust">0</dd></div>
+            <div><dt>Precisión de ruta</dt><dd id="accuracy">0%</dd></div>
+            <div><dt>Clasificación</dt><dd id="rank">Recluta</dd></div>
+          </dl>
+        </article>
+      </section>
 
-<h2>Cuantos hijos tiene Rick?</h2>
-<button onclick="responder(false)">1</button>
-<button onclick="responder(true)">3</button>
-<button onclick="responder(false)">2</button>
-<button onclick="responder(false)">5</button>
+ 
 
-<h2>De que trabajaba antes Rick?</h2>
-<button onclick="responder(false)">Policia</button>
-<button onclick="responder(true)">Sheriff</button>
-<button onclick="responder(false)">Bombero</button>
-<button onclick="responder(false)">Cocinero</button>
+    <footer class="site-footer">
+      <div class="site-footer__inner">
+        <div>
+          <p class="eyebrow">Creado por</p>
+          <h3>Jose Castellanos</h3>
+        </div>
+        <div class="site-footer__links">
+          <a href="https://github.com/joseckim" target="_blank" rel="noreferrer">GitHub</a>
+        </div>
+      </div>
+    </footer>
 
-<h2>Cómo se llama la espada que usa Michonne?</h2>
-<button onclick="responder(false)">Cimitarra</button>
-<button onclick="responder(true)">Katana</button>
-<button onclick="responder(false)">Machete</button>
-<button onclick="responder(false)">Florete</button>
-
-<h2>Cómo apodó Negan a su bate de béisbol envuelto en alambre de espino?</h2>
-<button onclick="responder(false)">Maggie</button>
-<button onclick="responder(false)">Rosita</button>
-<button onclick="responder(true)">Lucille</button>
-<button onclick="responder(false)">Sasha</button>
-
-<h2>Qué arma es la firma/característica de Daryl Dixon?</h2>
-<button onclick="responder(true)">Ballesta</button>
-<button onclick="responder(false)">Escopeta</button>
-<button onclick="responder(false)">Arco recurvo</button>
-<button onclick="responder(false)">Rifle de francotirador</button>
-
-<h2>Cómo llaman habitualmente a los zombis en la serie?</h2>
-<button onclick="responder(false)">Zombis</button>
-<button onclick="responder(true)">Caminantes</button>
-<button onclick="responder(false)">Infectados</button>
-<button onclick="responder(false)">Muertos</button>
-
-<h2>En qué lugar se desarrollan principalmente los eventos de las temporadas 3 y 4?</h2>
-<button onclick="responder(false)">La granja de Hershel</button>
-<button onclick="responder(true)">La prisión</button>
-<button onclick="responder(false)">Alexandria</button>
-<button onclick="responder(false)">Terminus</button>
-
-<h2>Cómo se llama la comunidad gobernada por "El Gobernador"?</h2>
-<button onclick="responder(true)">Woodbury</button>
-<button onclick="responder(false)">The Hilltop</button>
-<button onclick="responder(false)">The Kingdom</button>
-<button onclick="responder(false)">Oceanside</button>
-
-<h2>Quién le corta la pierna a Hershel para evitar que se transforme?</h2>
-<button onclick="responder(false)">Daryl</button>
-<button onclick="responder(false)">Glenn</button>
-<button onclick="responder(true)">Rick</button>
-<button onclick="responder(false)">Carol</button>
-
-<h2>Qué objeto personal solía llevar siempre Carl en la cabeza?</h2>
-<button onclick="responder(false)">Una pañoleta red</button>
-<button onclick="responder(false)">Casco de béisbol</button>
-<button onclick="responder(true)">El sombrero de sheriff de Rick</button>
-<button onclick="responder(false)">Una gorra militar</button>
-
-<h2>Como se llama el perro de Daryl Dixon?</h2>
-<button onclick="responder(false)">Doggo</button>
-<button onclick="responder(true)">Dog</button>
-<button onclick="responder(false)">Buster</button>
-<button onclick="responder(false)">Rex</button>
-
-<h2>Cual es la frase emblematica de Negan al presentarse con su bate?</h2>
-<button onclick="responder(false)">Knock knock</button>
-<button onclick="responder(true)">Eeny, meeny, miny, moe</button>
-<button onclick="responder(false)">Ready or not</button>
-<button onclick="responder(false)">Time to play</button>
-
-<h2>En que lugar despierta Rick Grimes del coma en el primer episodio?</h2>
-<button onclick="responder(false)">En su casa</button>
-<button onclick="responder(true)">En un hospital</button>
-<button onclick="responder(false)">En la comisaria</button>
-<button onclick="responder(false)">En una ambulancia</button>
-
-<h2>Quien es el lider original del grupo en la granja de la temporada 2?</h2>
-<button onclick="responder(false)">Dale</button>
-<button onclick="responder(false)">Otis</button>
-<button onclick="responder(true)">Hershel</button>
-<button onclick="responder(false)">Rick</button>
-
-<h2>Como se llama la enfermedad o infeccion que todos los supervivientes ya llevan dentro?</h2>
-<button onclick="responder(false)">Cepa T</button>
-<button onclick="responder(true)">El virus activo en todos</button>
-<button onclick="responder(false)">Gripe salvaje</button>
-<button onclick="responder(false)">Infeccion Alpha</button>
-
-<h2>Que personaje pierde un ojo tras recibir un disparo accidental?</h2>
-<button onclick="responder(false)">Glenn</button>
-<button onclick="responder(true)">Carl</button>
-<button onclick="responder(false)">El Gobernador</button>
-<button onclick="responder(false)">Ron</button>
-
-<h2>Cual es el verdadero nombre de la mujer conocida como Alpha?</h2>
-<button onclick="responder(false)">Mary</button>
-<button onclick="responder(false)">Laura</button>
-<button onclick="responder(true)">Dee</button>
-<button onclick="responder(false)">Samantha</button>
-
-</body>
+    <script src="furulando.js"></script>
+  </body>
 </html>
